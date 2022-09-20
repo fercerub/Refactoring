@@ -52,22 +52,22 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	return result;
 }
 
-uint32_t BillPrinter::amount_for(performance performance_, play play_) {
+uint32_t BillPrinter::amount_for(performance a_performance, play play_) {
 	uint32_t result = 0;
 
 	switch (play_.type) {
 		case tragedy:
 			result = 40000;
-			if (performance_.audience > 30) {
-				result += 1000 * (performance_.audience - 30);
+			if (a_performance.audience > 30) {
+				result += 1000 * (a_performance.audience - 30);
 			}
 			break;
 		case comedy:
 			result = 30000;
-			if (performance_.audience > 20) {
-				result += 10000 + 500 * (performance_.audience - 20);
+			if (a_performance.audience > 20) {
+				result += 10000 + 500 * (a_performance.audience - 20);
 			}
-			result += 300 * (performance_.audience);
+			result += 300 * (a_performance.audience);
 			break;
 		default:
 			break;
