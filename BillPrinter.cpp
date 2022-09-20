@@ -33,7 +33,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
 		play current_play = play_vector[customer_invoice.performances[i].id];
-		uint16_t this_amount = 0;
+		uint32_t this_amount = 0;
 
 		switch (current_play.type) {
 		case tragedy:

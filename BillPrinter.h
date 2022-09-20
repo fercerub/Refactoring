@@ -22,7 +22,7 @@ typedef struct {
 
 typedef struct {
 	uint8_t id;
-	uint8_t audience;
+	uint16_t audience;
 }performance;
 
 typedef struct {
