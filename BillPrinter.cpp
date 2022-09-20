@@ -32,7 +32,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	result += customer_invoice.customer + string("\n");
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
-		uint32_t this_amount = amount_for(customer_invoice.performances[i], play_for(customer_invoice.performances[i]));
+		uint32_t this_amount = amount_for(customer_invoice.performances[i]);
 
 		//add volume credits
 		volume_credits += std::max(customer_invoice.performances[i].audience - 30, 0);
@@ -51,7 +51,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	return result;
 }
 
-uint32_t BillPrinter::amount_for(performance a_performance, play play_) {
+uint32_t BillPrinter::amount_for(performance a_performance) {
 	uint32_t result = 0;
 
 	switch (play_for(a_performance).type) {
