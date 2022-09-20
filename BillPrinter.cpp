@@ -33,25 +33,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
 		play current_play = play_vector[customer_invoice.performances[i].id];
-		uint32_t this_amount = 0;
-
-		switch (current_play.type) {
-		case tragedy:
-			this_amount = 40000;
-			if (customer_invoice.performances[i].audience > 30) {
-				this_amount += 1000 * (customer_invoice.performances[i].audience - 30);
-			}
-			break;
-		case comedy:
-			this_amount = 30000;
-			if (customer_invoice.performances[i].audience > 20) {
-				this_amount += 10000 + 500 * (customer_invoice.performances[i].audience - 20);
-			}
-			this_amount += 300 * (customer_invoice.performances[i].audience);
-			break;
-		default:
-			break;
-		}
+		uint32_t this_amount = amount_for(customer_invoice.performances[i], current_play);
 
 		//add volume credits
 		volume_credits += std::max(customer_invoice.performances[i].audience - 30, 0);
@@ -68,4 +50,28 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", (float)total_amount / 100.0, volume_credits);
 	result += string(string_to_print);
 	return result;
+}
+
+uint32_t BillPrinter::amount_for(performance performance_, play play_) {
+	uint32_t this_amount = 0;
+
+	switch (play_.type) {
+		case tragedy:
+			this_amount = 40000;
+			if (performance_.audience > 30) {
+				this_amount += 1000 * (performance_.audience - 30);
+			}
+			break;
+		case comedy:
+			this_amount = 30000;
+			if (performance_.audience > 20) {
+				this_amount += 10000 + 500 * (performance_.audience - 20);
+			}
+			this_amount += 300 * (performance_.audience);
+			break;
+		default:
+			break;
+		}
+
+	return this_amount;
 }

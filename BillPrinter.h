@@ -43,5 +43,7 @@ public:
 private:
 	void init_plays(void);
 	play play_vector[num_plays];
+
+	uint32_t amount_for(performance performance_, play play_);
 };
 
