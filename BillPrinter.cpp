@@ -32,7 +32,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	result += customer_invoice.customer + string("\n");
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
-		play current_play = play_vector[customer_invoice.performances[i].id];
+		play current_play = play_for(customer_invoice.performances[i]);
 		uint32_t this_amount = amount_for(customer_invoice.performances[i], current_play);
 
 		//add volume credits
@@ -74,4 +74,8 @@ uint32_t BillPrinter::amount_for(performance a_performance, play play_) {
 		}
 
 	return result;
+}
+
+play BillPrinter::play_for(performance a_performance) {
+	return play_vector[a_performance.id];
 }
