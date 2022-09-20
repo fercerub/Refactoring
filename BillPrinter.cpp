@@ -54,7 +54,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 uint32_t BillPrinter::amount_for(performance a_performance, play play_) {
 	uint32_t result = 0;
 
-	switch (play_.type) {
+	switch (play_for(a_performance).type) {
 		case tragedy:
 			result = 40000;
 			if (a_performance.audience > 30) {
