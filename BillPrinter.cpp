@@ -73,10 +73,10 @@ play BillPrinter::play_for(performance a_performance) {
 }
 
 uint8_t BillPrinter::volume_credits_for(performance a_performance) {
-	uint8_t volume_credits = 0;
-	volume_credits += std::max(a_performance.audience - 30, 0);
+	uint8_t result = 0;
+	result += std::max(a_performance.audience - 30, 0);
 	//add extra credit for every ten comedy attendees
 	if (play_for(a_performance).type == comedy)
-		volume_credits += std::floor(a_performance.audience / 5);
-	return volume_credits;
+		result += std::floor(a_performance.audience / 5);
+	return result;
 }
