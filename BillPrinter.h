@@ -46,5 +46,6 @@ private:
 
 	uint32_t amount_for(performance a_performance);
 	play play_for(performance a_performance);
+	uint8_t volume_credits_for(performance a_performance);
 };
 

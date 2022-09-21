@@ -33,11 +33,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {		
 		//add volume credits
-		volume_credits += std::max(customer_invoice.performances[i].audience - 30, 0);
-
-		//add extra credit for every ten comedy attendees
-		if (play_for(customer_invoice.performances[i]).type == comedy)
-			volume_credits += std::floor(customer_invoice.performances[i].audience / 5);
+		volume_credits += volume_credits_for(customer_invoice.performances[i]);
 
 		//print line for this order			
 		sprintf(string_to_print, "	%s: $%2.2f (%u seats)\n", play_for(customer_invoice.performances[i]).name, (float)amount_for(customer_invoice.performances[i]) / 100.0, customer_invoice.performances[i].audience);
@@ -75,4 +71,13 @@ uint32_t BillPrinter::amount_for(performance a_performance) {
 
 play BillPrinter::play_for(performance a_performance) {
 	return play_vector[a_performance.id];
+}
+
+uint8_t BillPrinter::volume_credits_for(performance a_performance) {
+	uint8_t volume_credits = 0;
+	volume_credits += std::max(a_performance.audience - 30, 0);
+	//add extra credit for every ten comedy attendees
+	if (play_for(a_performance).type == comedy)
+		volume_credits += std::floor(a_performance.audience / 5);
+	return volume_credits;
 }
