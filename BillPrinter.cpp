@@ -37,9 +37,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 		total_amount += amount_for(customer_invoice.performances[i]);
 	}
 
-	uint8_t volume_credits = total_volume_credits(customer_invoice);
-
-	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", usd(total_amount), volume_credits);
+	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", usd(total_amount), total_volume_credits(customer_invoice));
 	result += string(string_to_print);
 	return result;
 }
