@@ -32,7 +32,6 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	result += customer_invoice.customer + string("\n");
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {		
-		//add volume credits
 		volume_credits += volume_credits_for(customer_invoice.performances[i]);
 
 		//print line for this order			
