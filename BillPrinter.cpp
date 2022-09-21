@@ -31,9 +31,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 
 	result += customer_invoice.customer + string("\n");
 
-	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
-		uint32_t this_amount = amount_for(customer_invoice.performances[i]);
-
+	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {		
 		//add volume credits
 		volume_credits += std::max(customer_invoice.performances[i].audience - 30, 0);
 
@@ -42,9 +40,9 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 			volume_credits += std::floor(customer_invoice.performances[i].audience / 5);
 
 		//print line for this order			
-		sprintf(string_to_print, "	%s: $%2.2f (%u seats)\n", play_for(customer_invoice.performances[i]).name, (float)this_amount / 100.0, customer_invoice.performances[i].audience);
+		sprintf(string_to_print, "	%s: $%2.2f (%u seats)\n", play_for(customer_invoice.performances[i]).name, (float)amount_for(customer_invoice.performances[i]) / 100.0, customer_invoice.performances[i].audience);
 		result += string(string_to_print);
-		total_amount += this_amount;
+		total_amount += amount_for(customer_invoice.performances[i]);
 	}
 	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", (float)total_amount / 100.0, volume_credits);
 	result += string(string_to_print);
