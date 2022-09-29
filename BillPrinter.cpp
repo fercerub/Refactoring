@@ -25,7 +25,6 @@ void BillPrinter::print_plays(void) {
 
 string BillPrinter::print_bill(invoice customer_invoice) {
 	char string_to_print[100];
-	uint32_t total_amount = 0;	
 	string result("\nInvoice for ");
 
 	result += customer_invoice.customer + string("\n");
@@ -34,10 +33,9 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 		//print line for this order			
 		sprintf(string_to_print, "	%s: $%2.2f (%u seats)\n", play_for(customer_invoice.performances[i]).name, usd(amount_for(customer_invoice.performances[i])), customer_invoice.performances[i].audience);
 		result += string(string_to_print);
-		total_amount += amount_for(customer_invoice.performances[i]);
 	}
 
-	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", usd(total_amount), total_volume_credits(customer_invoice));
+	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", usd(total_amount(customer_invoice)), total_volume_credits(customer_invoice));
 	result += string(string_to_print);
 	return result;
 }
@@ -87,6 +85,14 @@ uint8_t BillPrinter::total_volume_credits(invoice customer_invoice) {
 	uint8_t result = 0;
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {		
 		result += volume_credits_for(customer_invoice.performances[i]);
+	}
+	return result;
+}
+
+uint32_t BillPrinter::total_amount(invoice customer_invoice) {
+	uint32_t result = 0;
+	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
+		result += amount_for(customer_invoice.performances[i]);
 	}
 	return result;
 }

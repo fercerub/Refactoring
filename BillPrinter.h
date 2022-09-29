@@ -49,5 +49,6 @@ private:
 	uint8_t volume_credits_for(performance a_performance);
 	float usd(uint32_t amount);
 	uint8_t total_volume_credits(invoice customer_invoice);
+	uint32_t total_amount(invoice customer_invoice);
 };
 
