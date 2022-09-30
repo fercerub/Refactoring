@@ -32,6 +32,7 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 		bill_data.performances[i] = customer_invoice.performances[i];
 		bill_data.performances[i].play_ = play_for(bill_data.performances[i]);
 		bill_data.performances[i].amount_ = amount_for(bill_data.performances[i]);
+		bill_data.performances[i].volume_credits_ = volume_credits_for(bill_data.performances[i]);
 	}
 	return render_plain_text(bill_data);
 }
@@ -80,7 +81,7 @@ float BillPrinter::usd(uint32_t amount) {
 uint8_t BillPrinter::total_volume_credits(invoice customer_invoice) {
 	uint8_t result = 0;
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {		
-		result += volume_credits_for(customer_invoice.performances[i]);
+		result += customer_invoice.performances[i].volume_credits_;
 	}
 	return result;
 }
@@ -88,7 +89,7 @@ uint8_t BillPrinter::total_volume_credits(invoice customer_invoice) {
 uint32_t BillPrinter::total_amount(invoice customer_invoice) {
 	uint32_t result = 0;
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
-		result += customer_invoice.performances[i].amount_.;
+		result += customer_invoice.performances[i].amount_;
 	}
 	return result;
 }

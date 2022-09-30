@@ -25,6 +25,7 @@ typedef struct {
 	uint16_t audience;
 	play play_;
 	uint32_t amount_;
+	uint8_t volume_credits_;
 }performance;
 
 typedef struct {
