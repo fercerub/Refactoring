@@ -26,16 +26,19 @@ void BillPrinter::print_plays(void) {
 string BillPrinter::print_bill(invoice customer_invoice) {
 	invoice bill_data = {};
 	strcpy(bill_data.customer, customer_invoice.customer);
-	memcpy(bill_data.performances, customer_invoice.performances, 20);
 	bill_data.performances_played = customer_invoice.performances_played;
-
+	
+	for (uint8_t i = 0; i < bill_data.performances_played; i++) {
+		bill_data.performances[i] = customer_invoice.performances[i];
+		bill_data.performances[i].play_ = play_for(bill_data.performances[i]);
+	}
 	return render_plain_text(bill_data);
 }
 
 uint32_t BillPrinter::amount_for(performance a_performance) {
 	uint32_t result = 0;
 
-	switch (play_for(a_performance).type) {
+	switch (a_performance.play_.type) {
 		case tragedy:
 			result = 40000;
 			if (a_performance.audience > 30) {
@@ -64,7 +67,7 @@ uint8_t BillPrinter::volume_credits_for(performance a_performance) {
 	uint8_t result = 0;
 	result += std::max(a_performance.audience - 30, 0);
 	//add extra credit for every ten comedy attendees
-	if (play_for(a_performance).type == comedy)
+	if (a_performance.play_.type == comedy)
 		result += std::floor(a_performance.audience / 5);
 	return result;
 }
@@ -97,7 +100,7 @@ string BillPrinter::render_plain_text(invoice bill_data){
 
 	for (uint8_t i = 0; i < bill_data.performances_played; i++) {
 		//print line for this order			
-		sprintf(string_to_print, "	%s: $%2.2f (%u seats)\n", play_for(bill_data.performances[i]).name, usd(amount_for(bill_data.performances[i])), bill_data.performances[i].audience);
+		sprintf(string_to_print, "	%s: $%2.2f (%u seats)\n", bill_data.performances[i].play_.name, usd(amount_for(bill_data.performances[i])), bill_data.performances[i].audience);
 		result += string(string_to_print);
 	}
 
