@@ -50,5 +50,7 @@ private:
 	float usd(uint32_t amount);
 	uint8_t total_volume_credits(invoice customer_invoice);
 	uint32_t total_amount(invoice customer_invoice);
+
+	string render_plain_text(invoice customer_invoice);
 };
 
