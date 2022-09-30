@@ -25,6 +25,7 @@ void BillPrinter::print_plays(void) {
 
 string BillPrinter::print_bill(invoice customer_invoice) {
 	invoice bill_data = {};
+	strcpy(bill_data.customer, customer_invoice.customer);
 	return render_plain_text(bill_data, customer_invoice);
 }
 
@@ -89,7 +90,7 @@ string BillPrinter::render_plain_text(invoice bill_data, invoice customer_invoic
 	char string_to_print[100];
 	string result("\nInvoice for ");
 
-	result += customer_invoice.customer + string("\n");
+	result += bill_data.customer + string("\n");
 
 	for (uint8_t i = 0; i < customer_invoice.performances_played; i++) {
 		//print line for this order			
