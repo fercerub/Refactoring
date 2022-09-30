@@ -24,7 +24,8 @@ void BillPrinter::print_plays(void) {
 }
 
 string BillPrinter::print_bill(invoice customer_invoice) {
-	return render_plain_text(customer_invoice);	
+	invoice bill_data = {};
+	return render_plain_text(bill_data, customer_invoice);
 }
 
 uint32_t BillPrinter::amount_for(performance a_performance) {
@@ -84,7 +85,7 @@ uint32_t BillPrinter::total_amount(invoice customer_invoice) {
 	return result;
 }
 
-string BillPrinter::render_plain_text(invoice customer_invoice){
+string BillPrinter::render_plain_text(invoice bill_data, invoice customer_invoice){
 	char string_to_print[100];
 	string result("\nInvoice for ");
 
