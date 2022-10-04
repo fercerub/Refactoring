@@ -86,5 +86,18 @@ TEST(Test, Print_bill_for_group_C) {
 	printf("%s", result.c_str());
 
 	ASSERT_STREQ("\nInvoice for Group C\n\tDinner Game: $8460.00 (1020 seats)\n\tOthello: $9900.00 (980 seats)\n\tHamlet: $10100.00 (1000 seats)\n\tDinner Game: $16300.00 (2000 seats)\nAmount owed is $44760.00\nYou earned 108 credits\n\n", result.c_str());
-	ASSERT_EQ(1, 1);
+}
+
+TEST(Test, Print_bill_for_group_C_in_HTML) {
+	string result;
+	BillPrinter bill3;
+
+	invoice Group_C;
+	create_data_for_invoice_C(&Group_C);
+
+	result = bill3.print_bill_html(Group_C);
+
+	printf("%s", result.c_str());
+																																																																																																												
+	ASSERT_STREQ("\n<h1>Invoice for Group C</h1>\n<table>\n<tr><th>play</th><th>seats</th><th>cost</th></tr>\n<tr><td>Dinner Game</td><td>:$8460.00</td><td>(1020 seats)</td></tr>\n<tr><td>Othello</td><td>:$9900.00</td><td>(980 seats)</td></tr>\n<tr><td>Hamlet</td><td>:$10100.00</td><td>(1000 seats)</td></tr>\n<tr><td>Dinner Game</td><td>:$16300.00</td><td>(2000 seats)</td></tr>\n</table>\n<p>Amount owed is <em>$44760.00</em></p>\n<p>You earned <em>108</em> credits</p>\n\n", result.c_str());
 }

@@ -44,6 +44,7 @@ public:
 	void print_plays(void);
 
 	string print_bill(invoice customer_invoice);
+	string print_bill_html(invoice customer_invoice);
 
 private:
 	void init_plays(void);
@@ -57,6 +58,7 @@ private:
 	uint32_t total_amount(invoice customer_invoice);
 
 	string render_plain_text(invoice bill_data);
+	string render_html(invoice bill_data);
 	invoice create_invoice(invoice customer_invoice);
 };
 

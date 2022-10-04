@@ -27,6 +27,10 @@ string BillPrinter::print_bill(invoice customer_invoice) {
 	return render_plain_text(create_invoice(customer_invoice));
 }
 
+string BillPrinter::print_bill_html(invoice customer_invoice) {
+	return render_html(create_invoice(customer_invoice));
+}
+
 uint32_t BillPrinter::amount_for(performance a_performance) {
 	uint32_t result = 0;
 
@@ -97,6 +101,24 @@ string BillPrinter::render_plain_text(invoice bill_data){
 	}
 
 	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", usd(bill_data.total_amount_), bill_data.total_volume_credits_);
+	result += string(string_to_print);
+	return result;
+}
+
+string BillPrinter::render_html(invoice bill_data) {
+	char string_to_print[100];
+	string result("\n<h1>Invoice for ");
+
+	result += bill_data.customer + string("</h1>\n") + string("<table>\n");
+	result += string("<tr><th>play</th><th>seats</th><th>cost</th></tr>\n");
+
+	for (uint8_t i = 0; i < bill_data.performances_played; i++) {
+		//print line for this order			
+		sprintf(string_to_print, "<tr><td>%s</td><td>:$%2.2f</td><td>(%u seats)</td></tr>\n", bill_data.performances[i].play_.name, usd(bill_data.performances[i].amount_), bill_data.performances[i].audience);
+		result += string(string_to_print);
+	}
+	result += string("</table>\n");
+	sprintf(string_to_print, "<p>Amount owed is <em>$%2.2f</em></p>\n<p>You earned <em>%u</em> credits</p>\n\n", usd(bill_data.total_amount_), bill_data.total_volume_credits_);
 	result += string(string_to_print);
 	return result;
 }
