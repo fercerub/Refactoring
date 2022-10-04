@@ -33,6 +33,7 @@ typedef struct {
 	performance performances[20];
 	uint8_t performances_played;
 	uint32_t total_amount_;
+	uint8_t total_volume_credits_;
 }invoice;
 
 class BillPrinter
