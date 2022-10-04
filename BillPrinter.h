@@ -57,5 +57,6 @@ private:
 	uint32_t total_amount(invoice customer_invoice);
 
 	string render_plain_text(invoice bill_data);
+	invoice create_invoice(invoice customer_invoice);
 };
 

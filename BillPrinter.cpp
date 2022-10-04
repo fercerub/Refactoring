@@ -24,19 +24,7 @@ void BillPrinter::print_plays(void) {
 }
 
 string BillPrinter::print_bill(invoice customer_invoice) {
-	invoice bill_data = {};
-	strcpy(bill_data.customer, customer_invoice.customer);
-	bill_data.performances_played = customer_invoice.performances_played;
-	
-	for (uint8_t i = 0; i < bill_data.performances_played; i++) {
-		bill_data.performances[i] = customer_invoice.performances[i];
-		bill_data.performances[i].play_ = play_for(bill_data.performances[i]);
-		bill_data.performances[i].amount_ = amount_for(bill_data.performances[i]);
-		bill_data.performances[i].volume_credits_ = volume_credits_for(bill_data.performances[i]);
-	}
-	bill_data.total_amount_ = total_amount(bill_data);
-	bill_data.total_volume_credits_ = total_volume_credits(bill_data);
-	return render_plain_text(bill_data);
+	return render_plain_text(create_invoice(customer_invoice));
 }
 
 uint32_t BillPrinter::amount_for(performance a_performance) {
@@ -111,4 +99,20 @@ string BillPrinter::render_plain_text(invoice bill_data){
 	sprintf(string_to_print, "Amount owed is $%2.2f\nYou earned %u credits\n\n", usd(bill_data.total_amount_), bill_data.total_volume_credits_);
 	result += string(string_to_print);
 	return result;
+}
+
+invoice BillPrinter::create_invoice(invoice customer_invoice) {
+	invoice bill_data = {};
+	strcpy(bill_data.customer, customer_invoice.customer);
+	bill_data.performances_played = customer_invoice.performances_played;
+
+	for (uint8_t i = 0; i < bill_data.performances_played; i++) {
+		bill_data.performances[i] = customer_invoice.performances[i];
+		bill_data.performances[i].play_ = play_for(bill_data.performances[i]);
+		bill_data.performances[i].amount_ = amount_for(bill_data.performances[i]);
+		bill_data.performances[i].volume_credits_ = volume_credits_for(bill_data.performances[i]);
+	}
+	bill_data.total_amount_ = total_amount(bill_data);
+	bill_data.total_volume_credits_ = total_volume_credits(bill_data);
+	return bill_data;
 }
