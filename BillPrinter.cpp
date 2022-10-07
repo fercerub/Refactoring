@@ -36,14 +36,6 @@ play BillPrinter::play_for(performance a_performance) {
 	return play_vector[a_performance.id];
 }
 
-uint8_t BillPrinter::volume_credits_for(performance a_performance) {
-	uint8_t result = 0;
-	result += std::max(a_performance.audience - 30, 0);
-	//add extra credit for every ten comedy attendees
-	if (a_performance.play_.type == comedy)
-		result += std::floor(a_performance.audience / 5);
-	return result;
-}
 
 float BillPrinter::usd(uint32_t amount) {
 	return (float)amount / 100.0;
@@ -110,7 +102,7 @@ invoice BillPrinter::create_invoice(invoice customer_invoice) {
 		PerformanceCalculator calculator(bill_data.performances[i], play_for(bill_data.performances[i]));
 		bill_data.performances[i].play_ = calculator.a_play;
 		bill_data.performances[i].amount_ = calculator.get_amount();
-		bill_data.performances[i].volume_credits_ = volume_credits_for(bill_data.performances[i]);
+		bill_data.performances[i].volume_credits_ = calculator.get_volume_credits();
 	}
 	bill_data.total_amount_ = total_amount(bill_data);
 	bill_data.total_volume_credits_ = total_volume_credits(bill_data);
@@ -141,5 +133,14 @@ uint32_t PerformanceCalculator::get_amount(void) {
 		break;
 	}
 
+	return result;
+}
+
+uint8_t PerformanceCalculator::get_volume_credits(void) {
+	uint8_t result = 0;
+	result += std::max(a_performance.audience - 30, 0);
+	//add extra credit for every ten comedy attendees
+	if (a_play.type == comedy)
+		result += std::floor(a_performance.audience / 5);
 	return result;
 }

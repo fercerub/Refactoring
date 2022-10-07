@@ -50,8 +50,7 @@ private:
 	void init_plays(void);
 	play play_vector[num_plays];
 
-	play play_for(performance a_performance);
-	uint8_t volume_credits_for(performance a_performance);
+	play play_for(performance a_performance);	
 	float usd(uint32_t amount);
 	uint8_t total_volume_credits(invoice customer_invoice);
 	uint32_t total_amount(invoice customer_invoice);
@@ -66,6 +65,7 @@ public:
 	PerformanceCalculator(performance a_performance, play a_play);
 	
 	uint32_t get_amount(void);
+	uint8_t get_volume_credits(void);
 	performance a_performance;
 	play a_play;
 };
