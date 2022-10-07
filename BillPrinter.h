@@ -62,3 +62,11 @@ private:
 	invoice create_invoice(invoice customer_invoice);
 };
 
+class PerformanceCalculator {
+public:
+	PerformanceCalculator(performance a_performance);
+
+private:
+	performance a_performance;
+};
+

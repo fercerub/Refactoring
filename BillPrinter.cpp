@@ -138,3 +138,7 @@ invoice BillPrinter::create_invoice(invoice customer_invoice) {
 	bill_data.total_volume_credits_ = total_volume_credits(bill_data);
 	return bill_data;
 }
+
+
+PerformanceCalculator::PerformanceCalculator(performance a_performance):a_performance(a_performance){}
+
