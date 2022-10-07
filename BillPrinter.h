@@ -50,7 +50,6 @@ private:
 	void init_plays(void);
 	play play_vector[num_plays];
 
-	uint32_t amount_for(performance a_performance);
 	play play_for(performance a_performance);
 	uint8_t volume_credits_for(performance a_performance);
 	float usd(uint32_t amount);
@@ -65,7 +64,8 @@ private:
 class PerformanceCalculator {
 public:
 	PerformanceCalculator(performance a_performance, play a_play);
-
+	
+	uint32_t get_amount(void);
 	performance a_performance;
 	play a_play;
 };

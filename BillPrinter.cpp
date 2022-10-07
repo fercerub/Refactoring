@@ -31,29 +31,6 @@ string BillPrinter::print_bill_html(invoice customer_invoice) {
 	return render_html(create_invoice(customer_invoice));
 }
 
-uint32_t BillPrinter::amount_for(performance a_performance) {
-	uint32_t result = 0;
-
-	switch (a_performance.play_.type) {
-		case tragedy:
-			result = 40000;
-			if (a_performance.audience > 30) {
-				result += 1000 * (a_performance.audience - 30);
-			}
-			break;
-		case comedy:
-			result = 30000;
-			if (a_performance.audience > 20) {
-				result += 10000 + 500 * (a_performance.audience - 20);
-			}
-			result += 300 * (a_performance.audience);
-			break;
-		default:
-			break;
-		}
-
-	return result;
-}
 
 play BillPrinter::play_for(performance a_performance) {
 	return play_vector[a_performance.id];
@@ -132,7 +109,7 @@ invoice BillPrinter::create_invoice(invoice customer_invoice) {
 		bill_data.performances[i] = customer_invoice.performances[i];
 		PerformanceCalculator calculator(bill_data.performances[i], play_for(bill_data.performances[i]));
 		bill_data.performances[i].play_ = calculator.a_play;
-		bill_data.performances[i].amount_ = amount_for(bill_data.performances[i]);
+		bill_data.performances[i].amount_ = calculator.get_amount();
 		bill_data.performances[i].volume_credits_ = volume_credits_for(bill_data.performances[i]);
 	}
 	bill_data.total_amount_ = total_amount(bill_data);
@@ -143,3 +120,26 @@ invoice BillPrinter::create_invoice(invoice customer_invoice) {
 
 PerformanceCalculator::PerformanceCalculator(performance a_performance, play a_play):a_performance(a_performance), a_play(a_play) {}
 
+uint32_t PerformanceCalculator::get_amount(void) {
+	uint32_t result = 0;
+
+	switch (a_play.type) {
+	case tragedy:
+		result = 40000;
+		if (a_performance.audience > 30) {
+			result += 1000 * (a_performance.audience - 30);
+		}
+		break;
+	case comedy:
+		result = 30000;
+		if (a_performance.audience > 20) {
+			result += 10000 + 500 * (a_performance.audience - 20);
+		}
+		result += 300 * (a_performance.audience);
+		break;
+	default:
+		break;
+	}
+
+	return result;
+}
