@@ -128,9 +128,10 @@ invoice BillPrinter::create_invoice(invoice customer_invoice) {
 	strcpy(bill_data.customer, customer_invoice.customer);
 	bill_data.performances_played = customer_invoice.performances_played;
 
-	for (uint8_t i = 0; i < bill_data.performances_played; i++) {
+	for (uint8_t i = 0; i < bill_data.performances_played; i++) {		
 		bill_data.performances[i] = customer_invoice.performances[i];
-		bill_data.performances[i].play_ = play_for(bill_data.performances[i]);
+		PerformanceCalculator calculator(bill_data.performances[i], play_for(bill_data.performances[i]));
+		bill_data.performances[i].play_ = calculator.a_play;
 		bill_data.performances[i].amount_ = amount_for(bill_data.performances[i]);
 		bill_data.performances[i].volume_credits_ = volume_credits_for(bill_data.performances[i]);
 	}
@@ -140,5 +141,5 @@ invoice BillPrinter::create_invoice(invoice customer_invoice) {
 }
 
 
-PerformanceCalculator::PerformanceCalculator(performance a_performance):a_performance(a_performance){}
+PerformanceCalculator::PerformanceCalculator(performance a_performance, play a_play):a_performance(a_performance), a_play(a_play) {}
 

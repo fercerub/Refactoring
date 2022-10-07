@@ -64,9 +64,9 @@ private:
 
 class PerformanceCalculator {
 public:
-	PerformanceCalculator(performance a_performance);
+	PerformanceCalculator(performance a_performance, play a_play);
 
-private:
 	performance a_performance;
+	play a_play;
 };
 
