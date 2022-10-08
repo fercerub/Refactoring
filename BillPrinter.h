@@ -36,6 +36,16 @@ typedef struct {
 	uint8_t total_volume_credits_;
 }invoice;
 
+class PerformanceCalculator {
+public:
+	PerformanceCalculator(performance a_performance, play a_play);
+
+	uint32_t get_amount(void);
+	uint8_t get_volume_credits(void);
+	performance a_performance;
+	play a_play;
+
+};
 class BillPrinter
 {
 public:
@@ -58,15 +68,7 @@ private:
 	string render_plain_text(invoice bill_data);
 	string render_html(invoice bill_data);
 	invoice create_invoice(invoice customer_invoice);
+	PerformanceCalculator* create_calculator(performance a_performance, play a_play);
 };
 
-class PerformanceCalculator {
-public:
-	PerformanceCalculator(performance a_performance, play a_play);
-	
-	uint32_t get_amount(void);
-	uint8_t get_volume_credits(void);
-	performance a_performance;
-	play a_play;
-};
 
