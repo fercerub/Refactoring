@@ -1,6 +1,4 @@
 # Refactoring
-Refactoring example
-
 This repository contains a step by step refactoring exercise.
 
 In particular, it is an example taken from the first chapter of the book "Refactoring, Improving the Design of Existing Code (2nd Ed), by M. Fowler" and it is used to give the reader a sense of the refactoring process.
